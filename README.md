@@ -13,4 +13,5 @@ Key skills we'll practice include:
 
 ### Creating the Chatbot Framework
 The Chatbot Framework is implementated as a **ConversationManager** class in the module `conversation_manager.py` while the rendering using [Streamlit](https://streamlit.io/) is implemented in `chatbot_using_streamlit.py`
+
 To test the bot from your local machine run `python -m streamlit run .\chatbot_using_streamlit.py` from the command line.
