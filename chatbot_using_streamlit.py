@@ -1,6 +1,6 @@
 import streamlit as st
 from conversation_manager import ConversationManager
-from conversation_manager import DEFAULT_MAX_TOKENS, DEFAULT_TOKEN_BUDGET
+from conversation_manager import DEFAULT_MAX_TOKENS, DEFAULT_TOKEN_BUDGET, DEFAULT_TEMPERATURE
 
 
 st.title("Binati Chatbot")
@@ -9,14 +9,13 @@ if 'chat_manager' not in st.session_state:
     
 chat_manager = st.session_state['chat_manager']
 
-with st.sidebar.title('Set Token Budget'):
-    token_budget = st.slider(f"Set token budget on a scale of 1 to {DEFAULT_TOKEN_BUDGET}", 25, DEFAULT_TOKEN_BUDGET, DEFAULT_MAX_TOKENS)
-with st.sidebar.title('Set Bot Temperature'):
-    chat_temperature = st.slider("Set teperature on a scale of 0 to 1", 0.0, 1.0, 0.5)
-
-with st.sidebar.title('Set Persona'):
-    persona = st.selectbox("Select Chatbot Persona", list(chat_manager.system_messages.keys()))
-    
+st.sidebar.title('Bot Parameters')
+with st.sidebar:
+    token_budget = st.slider(f"Set token budget on a scale of 25 to {DEFAULT_TOKEN_BUDGET}", 25, DEFAULT_TOKEN_BUDGET, DEFAULT_MAX_TOKENS)
+with st.sidebar:
+    chat_temperature = st.slider("Set teperature on a scale of 0 to 1", 0.0, 1.0, DEFAULT_TEMPERATURE)
+with st.sidebar:
+    persona = st.selectbox("Select Chatbot Persona", list(chat_manager.system_messages.keys()))  
 if persona in ["Sassy Assistant", "Angry Assistant", "Thoughtful Assistant"]:
     chat_manager.set_persona(persona)
 else:
@@ -33,7 +32,6 @@ if user_input:
                                                temperature = chat_temperature,
                                                max_tokens = token_budget
                                               )
-
 
 for chat in chat_manager.conversation_history:
     if chat["role"] != "system":
